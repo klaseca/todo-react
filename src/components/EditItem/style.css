@@ -1,0 +1,26 @@
+.edit-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    background-color: rgb(236, 236, 236);
+    box-sizing: border-box;
+}
+
+.edit-input {
+    height: 25px;
+    width: 78%;
+}
+
+.save-btn, .not-save-btn {
+    width: 10%;
+    border: none;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    transition: all .5s ease;
+}
+
+.save-btn:hover, .not-save-btn:hover {
+    background-color: rgb(209, 209, 209);
+    transition: all .5s ease-out;
+}

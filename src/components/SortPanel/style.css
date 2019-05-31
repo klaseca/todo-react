@@ -1,0 +1,7 @@
+.sort-panel {
+    display: flex;
+    padding: 10px;
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    box-sizing: border-box;
+}

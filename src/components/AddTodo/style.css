@@ -1,0 +1,26 @@
+.add-todo {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    width: 100%;
+    background-color: rgb(236, 236, 236);
+    box-sizing: border-box;
+}
+
+.add-input {
+    height: 25px;
+    width: 88%;
+}
+
+.add-btn {
+    width: 10%;
+    border: none;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    transition: all .5s ease;
+}
+
+.add-btn:hover {
+    background-color: rgb(209, 209, 209);
+    transition: all .5s ease-out;
+}
