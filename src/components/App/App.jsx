@@ -14,6 +14,7 @@ export default class App extends Component {
 			const newTodo = {
 				id: uuid,
 				text: this.state.value,
+				markers: [],
 				isCompleted: false,
 				isEditable: false
 			};
@@ -158,12 +159,69 @@ export default class App extends Component {
 		});
 	};
 
+	openMarkersModal = todo => {
+		this.setState(() => {
+			return { selectTodo: todo, isMarkersModal: true };
+		});
+	};
+
+	closeMarkersModal = () => {
+		this.setState(() => {
+			return { selectTodo: {}, isMarkersModal: false };
+		});
+	};
+
+	addMarker = value => {
+		this.setState(({ markers }) => {
+			const uuid = ([1e7] + -1e3).replace(/[018]/g, c =>
+				(c ^ (crypto.getRandomValues(new Uint8Array(1))[0] / 4)).toString(16)
+			);
+
+			const marker = {
+				id: uuid,
+				value
+			};
+
+			const newMarkers = [...markers, marker];
+
+			localStorage.markers = JSON.stringify(newMarkers);
+
+			return { markers: newMarkers };
+		});
+	};
+
+	setCheckedMarker = (todoId, markerId) => {
+		this.setState(({ todos }) => {
+			let newTodos = [...todos];
+			const todoIndex = todos.findIndex(elem => {
+				return elem.id === todoId;
+			});
+
+			if (newTodos[todoIndex].markers.includes(markerId)) {
+				const markers = newTodos[todoIndex].markers.filter(elem => {
+					return elem !== markerId;
+				});
+				newTodos[todoIndex].markers = markers;
+			} else {
+				const markers = [...newTodos[todoIndex].markers, markerId];
+				newTodos[todoIndex].markers = markers;
+			}
+
+			localStorage.todos = JSON.stringify(newTodos);
+
+			return { todos: newTodos };
+		});
+	};
+
 	state = {
 		todos: [],
 		trash: [],
+		markers: [],
 		sortBy: "date",
+		selectTodo: {},
 		value: "",
 		editValue: "",
+		isMarkersModal: false,
 		addListItem: this.addListItem,
 		setValue: this.setValue,
 		setEditValue: this.setEditValue,
@@ -175,23 +233,33 @@ export default class App extends Component {
 		sortChange: this.sortChange,
 		removeTrashItem: this.removeTrashItem,
 		restoreTrashItem: this.restoreTrashItem,
-		removeTrashAll: this.removeTrashAll
+		removeTrashAll: this.removeTrashAll,
+		openMarkersModal: this.openMarkersModal,
+		closeMarkersModal: this.closeMarkersModal,
+		addMarker: this.addMarker,
+		setCheckedMarker: this.setCheckedMarker
 	};
 
 	componentDidMount() {
 		const todos = localStorage.todos;
 		const trash = localStorage.trash;
-		if (todos && trash) {
-			this.setState(() => {
-				return { todos: JSON.parse(todos), trash: JSON.parse(trash) };
-			});
-		} else if (todos) {
+		const markers = localStorage.markers;
+
+		if (todos) {
 			this.setState(() => {
 				return { todos: JSON.parse(todos) };
 			});
-		} else {
+		}
+		
+		if (trash) {
 			this.setState(() => {
-				return { trash: JSON.parse(todos) };
+				return { trash: JSON.parse(trash) };
+			});
+		} 
+		
+		if (markers) {
+			this.setState(() => {
+				return { markers: JSON.parse(markers) };
 			});
 		}
 	}
