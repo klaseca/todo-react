@@ -13,6 +13,7 @@ export default class TodoList extends Component {
 				<ListItem
 					key={info.id}
 					info={info}
+					markers={info.markers}
 					isCompleted={info.isCompleted}
 				/>
 			) : (
@@ -68,28 +69,3 @@ export default class TodoList extends Component {
 		);
 	}
 }
-
-// {({ todos, sortBy }) => (
-// 	<div className="todo-list">
-// 		{todos.length > 0 ? (
-// 			<Fragment>
-// 				<SortPanel />
-// 				{todos.map(info => {
-// 					const item = !info.isEditable ? (
-// 						<ListItem
-// 							key={info.id}
-// 							info={info}
-// 							isCompleted={info.isCompleted}
-// 						/>
-// 					) : (
-// 						<EditItem key={info.id} idItem={info.id} />
-// 					);
-
-// 					return item;
-// 				})}
-// 			</Fragment>
-// 		) : (
-// 			<EmptyItem />
-// 		)}
-// 	</div>
-// )}
