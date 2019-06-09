@@ -1,10 +1,22 @@
 import React, { Component } from "react";
 import styles from "./s.module.css";
 import TrashList from "../TrashList";
-import { Consumer } from "../../Context";
+import { Context, Consumer } from "../../Context";
 import { Link } from "react-router-dom";
 
 export default class TrashForm extends Component {
+	static contextType = Context;
+
+	componentDidMount() {
+		this.clearAll = setInterval(() => {
+			this.context.removeTrashAll();
+		}, 10000);
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.clearAll);
+	}
+
 	render() {
 		return (
 			<Consumer>
